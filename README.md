@@ -30,11 +30,26 @@ npm run build
 # Inspect generated tools
 npx openapi-bridge inspect -s ./test/sample.openapi.json --service tickets
 
+# Normalize schema (ReadMe OAS)
+npx openapi-bridge normalize -s ./test/sample.openapi.json -o normalized.json
+
+# Validate schema (optionally strict python validator)
+npx openapi-bridge validate -s ./test/sample.openapi.json
+npx openapi-bridge validate -s ./test/sample.openapi.json --python-strict
+
 # Generate manifest JSON
 npx openapi-bridge manifest -s ./test/sample.openapi.json --service tickets -o manifest.json
 
 # Serve runtime bridge
 npx openapi-bridge serve -s ./test/sample.openapi.json --service tickets --port 8788
+
+# APIs.guru catalog bootstrap
+npx openapi-bridge catalog sync
+npx openapi-bridge catalog list -n 20
+npx openapi-bridge catalog enable -a stripe.com -o bridge.config.json
+
+# Schema diff via bump CLI (if installed)
+npx openapi-bridge diff --old old.json --new new.json
 ```
 
 ## OpenClaw integration (current approach)
