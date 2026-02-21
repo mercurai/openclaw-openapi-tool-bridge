@@ -6,10 +6,10 @@ import { toOpenClawManifest } from "./adapters/openclaw-manifest.js";
 import { createApp } from "./server/app.js";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { normalizeOpenApi } from "./phase2/normalizer.js";
-import { listCatalog, loadCatalog, selectSchemaUrl, syncCatalog } from "./phase2/catalog.js";
-import { runPythonOpenApiValidator } from "./phase2/validator.js";
-import { runBumpDiff } from "./phase2/diff.js";
+import { normalizeOpenApi } from "./integrations/oas-normalizer.js";
+import { listCatalog, loadCatalog, selectSchemaUrl, syncCatalog } from "./catalog/apis-guru.js";
+import { runPythonOpenApiValidator } from "./validators/python-openapi.js";
+import { runBumpDiff } from "./diff/bump.js";
 
 const program = new Command();
 program.name("openapi-bridge").description("OpenAPI to tool bridge for OpenClaw");
