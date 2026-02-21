@@ -12,7 +12,13 @@ import { runPythonOpenApiValidator } from "./validators/python-openapi.js";
 import { runBumpDiff } from "./diff/bump.js";
 
 const program = new Command();
-program.name("openapi-bridge").description("OpenAPI to tool bridge for OpenClaw");
+program
+  .name("openapi-bridge")
+  .description("OpenAPI to tool bridge for OpenClaw")
+  .addHelpText(
+    "after",
+    `\nExamples:\n  openapi-bridge inspect -s ./schema.json --service billing\n  openapi-bridge serve -s ./schema.json --service billing --port 8788\n  openapi-bridge catalog sync\n\nFor LLM-friendly docs: openapi-bridge help-md\n`,
+  );
 
 program
   .command("inspect")
@@ -150,6 +156,14 @@ program
       return;
     }
     console.log(r.stdout);
+  });
+
+program
+  .command("help-md")
+  .description("Print machine-readable (LLM-friendly) help in Markdown")
+  .action(() => {
+    const md = `# openapi-bridge CLI\n\n## Install\n\n\`npm install -g openclaw-openapi-tool-bridge\`\n\nFor local development in this repo:\n\`npm install && npm run build && npm link\`\n\n## Commands\n\n- \`inspect -s <schema> [--service <name>]\`\n  - Compile schema and list generated tool names.\n- \`manifest -s <schema> [--service <name>] [-o <file>]\`\n  - Emit OpenClaw tool manifest JSON.\n- \`serve -s <schema> [--service <name>] [--port <n>] [auth opts]\`\n  - Run runtime bridge service with endpoints:\n    - \`GET /health\`\n    - \`GET /tools\`\n    - \`POST /invoke/:name\`\n    - \`POST /refresh\`\n- \`normalize -s <schema> [-o <file>]\`\n  - Normalize schema with ReadMe OAS tooling.\n- \`validate -s <schema> [--python-strict]\`\n  - Validate schema with oas-normalize (and optional python strict validator).\n- \`catalog sync|list|enable ...\`\n  - Sync/list/enable APIs from public catalog sources.\n- \`diff --old <schema> --new <schema>\`\n  - Run schema diff (bump CLI wrapper).\n\n## Auth options for serve\n\n- \`--auth-type none|bearer|apikey\`\n- \`--token <token>\`\n- \`--header <header>\` (for api key header mode)\n- \`--query-key <key> --query-value <value>\` (for api key query mode)\n\n## Exit behavior\n\n- Non-zero exit on validation/diff failures.\n- Human-readable errors by default.\n\n`;
+    console.log(md);
   });
 
 program.parseAsync();

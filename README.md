@@ -19,9 +19,20 @@ Most schema-to-tool projects are one-shot generators. This bridge is designed fo
 
 ## Install
 
+### Global install (recommended)
+
+```bash
+npm install -g openclaw-openapi-tool-bridge
+openapi-bridge --help
+```
+
+### Local development install
+
 ```bash
 npm install
 npm run build
+npm link
+openapi-bridge --help
 ```
 
 ## CLI
