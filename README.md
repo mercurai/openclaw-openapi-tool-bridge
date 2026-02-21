@@ -35,32 +35,38 @@ npm link
 openapi-bridge --help
 ```
 
-## CLI
+## CLI (Primary Workflow)
 
 ```bash
-# Inspect generated tools
-npx openapi-bridge inspect -s ./test/sample.openapi.json --service tickets
+# Select once (normalize + validate + compile cached internally)
+openapi-bridge use ./test/sample.openapi.json --service tickets
 
-# Normalize schema (ReadMe OAS)
-npx openapi-bridge normalize -s ./test/sample.openapi.json -o normalized.json
+# Discover endpoints
+openapi-bridge list --format json
+openapi-bridge show createTicket --format json
 
-# Validate schema (optionally strict python validator)
-npx openapi-bridge validate -s ./test/sample.openapi.json
-npx openapi-bridge validate -s ./test/sample.openapi.json --python-strict
+# Execute
+openapi-bridge run createTicket --param priority=high --body '{"message":"hello"}'
 
-# Generate manifest JSON
-npx openapi-bridge manifest -s ./test/sample.openapi.json --service tickets -o manifest.json
+# Shorthand alias (defaults to run)
+openapi-bridge createTicket --param priority=high --body '{"message":"hello"}'
 
-# Serve runtime bridge
-npx openapi-bridge serve -s ./test/sample.openapi.json --service tickets --port 8788
+# Agent-friendly help
+openapi-bridge help-json
+```
 
-# APIs.guru catalog bootstrap
-npx openapi-bridge catalog sync
-npx openapi-bridge catalog list -n 20
-npx openapi-bridge catalog enable -a stripe.com -o bridge.config.json
+## CLI (Advanced)
 
-# Schema diff via bump CLI (if installed)
-npx openapi-bridge diff --old old.json --new new.json
+```bash
+openapi-bridge inspect -s ./test/sample.openapi.json --service tickets
+openapi-bridge manifest -s ./test/sample.openapi.json --service tickets -o manifest.json
+openapi-bridge normalize -s ./test/sample.openapi.json -o normalized.json
+openapi-bridge validate -s ./test/sample.openapi.json --python-strict
+openapi-bridge serve -s ./test/sample.openapi.json --service tickets --port 8788
+openapi-bridge catalog sync
+openapi-bridge catalog list -n 20
+openapi-bridge catalog enable -a stripe.com -o bridge.config.json
+openapi-bridge diff --old old.json --new new.json
 ```
 
 ## OpenClaw integration (current approach)

@@ -13,8 +13,11 @@ export interface ToolDef {
   method: HttpMethod;
   path: string;
   serverUrl: string;
+  operationId?: string;
+  tags?: string[];
   parametersSchema?: any;
   requestBodySchema?: any;
+  responses?: Record<string, any>;
 }
 
 export interface AuthProfile {

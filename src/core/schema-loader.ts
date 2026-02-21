@@ -9,6 +9,18 @@ export async function loadOpenApiSchema(input: string): Promise<OpenApiDoc> {
   const parsed = parseSchema(raw, input);
   const deref = (await $RefParser.dereference(parsed as any)) as OpenApiDoc;
   if (!deref?.paths) throw new Error("Invalid OpenAPI schema: missing paths");
+
+  // Normalize relative server URLs when schema source is remote.
+  if (/^https?:\/\//.test(input) && Array.isArray(deref.servers)) {
+    const origin = new URL(input).origin;
+    deref.servers = deref.servers.map((s) => {
+      if (!s?.url) return s;
+      if (/^https?:\/\//.test(s.url)) return s;
+      if (s.url.startsWith("/")) return { ...s, url: `${origin}${s.url}` };
+      return { ...s, url: `${origin}/${s.url}` };
+    });
+  }
+
   return deref;
 }
 

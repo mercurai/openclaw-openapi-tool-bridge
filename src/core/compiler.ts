@@ -18,8 +18,11 @@ export function compileTools(doc: OpenApiDoc, service = "api"): ToolDef[] {
         method,
         path: route,
         serverUrl,
+        operationId,
+        tags: spec.tags ?? [],
         parametersSchema: buildParameterSchema(spec.parameters ?? []),
         requestBodySchema: spec.requestBody?.content?.["application/json"]?.schema,
+        responses: spec.responses ?? {},
       });
     }
   }
