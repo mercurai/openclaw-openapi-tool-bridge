@@ -53,7 +53,7 @@ program
       const ctx = await useSchema(target, opts.service);
       printOut(envelope("use", { service: ctx.service, fingerprint: ctx.fingerprint, tools: ctx.tools.length }), opts.format as OutputFormat);
     } catch (e: any) {
-      printOut(envelopeErr("use", "USE_FAILED", e.message), opts.format as OutputFormat);
+      printOut(envelopeErr("use", "VALIDATION_ERROR", e.message), opts.format as OutputFormat);
       process.exitCode = 1;
     }
   });
@@ -67,7 +67,7 @@ program
       const data = ctx.tools.map((t) => ({ name: t.name, method: t.method.toUpperCase(), path: t.path, description: t.description }));
       printOut(envelope("list", data, { service: ctx.service, schemaFingerprint: ctx.fingerprint }), opts.format as OutputFormat);
     } catch (e: any) {
-      printOut(envelopeErr("list", "NO_ACTIVE_CONTEXT", e.message), opts.format as OutputFormat);
+      printOut(envelopeErr("list", "CONTEXT_ERROR", e.message), opts.format as OutputFormat);
       process.exitCode = 1;
     }
   });
@@ -92,7 +92,7 @@ program
       };
       printOut(envelope("show", data, { service: ctx.service, schemaFingerprint: ctx.fingerprint }), opts.format as OutputFormat);
     } catch (e: any) {
-      printOut(envelopeErr("show", "SHOW_FAILED", e.message), opts.format as OutputFormat);
+      printOut(envelopeErr("show", "CONTEXT_ERROR", e.message), opts.format as OutputFormat);
       process.exitCode = 1;
     }
   });
@@ -113,7 +113,7 @@ program
       const result = await invokeTool(tool, { parameters, requestBody });
       printOut(envelope("run", result, { endpoint: tool.name, service: ctx.service, schemaFingerprint: ctx.fingerprint }), opts.format as OutputFormat);
     } catch (e: any) {
-      printOut(envelopeErr("run", "RUN_FAILED", e.message), opts.format as OutputFormat);
+      printOut(envelopeErr("run", "CONTEXT_ERROR", e.message), opts.format as OutputFormat);
       process.exitCode = 1;
     }
   });
@@ -137,7 +137,7 @@ program
       const data = ctx.tools.filter((t) => [t.name, t.description, t.path].join(" ").toLowerCase().includes(q));
       printOut(envelope("search", data, { service: ctx.service, schemaFingerprint: ctx.fingerprint }), opts.format as OutputFormat);
     } catch (e: any) {
-      printOut(envelopeErr("search", "SEARCH_FAILED", e.message), opts.format as OutputFormat);
+      printOut(envelopeErr("search", "INTERNAL_ERROR", e.message), opts.format as OutputFormat);
       process.exitCode = 1;
     }
   });
@@ -304,7 +304,7 @@ program
       const result = await invokeTool(tool, { parameters, requestBody });
       printOut(envelope("run", result, { endpoint: tool.name, service: ctx.service, schemaFingerprint: ctx.fingerprint }), opts.format as OutputFormat);
     } catch (e: any) {
-      printOut(envelopeErr("run", "RUN_FAILED", e.message), opts.format as OutputFormat);
+      printOut(envelopeErr("run", "CONTEXT_ERROR", e.message), opts.format as OutputFormat);
       process.exitCode = 1;
     }
   });
