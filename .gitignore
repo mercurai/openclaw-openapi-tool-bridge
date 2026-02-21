@@ -1,5 +1,29 @@
-node_modules
-dist
+# dependencies
+node_modules/
+
+# build artifacts
+dist/
+coverage/
+*.tsbuildinfo
+
+# local runtime state/cache
+.openapi-bridge/
+.cache/
+
+# env/secrets
 .env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor
 .DS_Store
-coverage
+Thumbs.db
+.vscode/
+.idea/
