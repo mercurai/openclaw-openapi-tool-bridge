@@ -1,0 +1,36 @@
+{
+  "name": "openclaw-openapi-tool-bridge",
+  "version": "0.1.0",
+  "description": "OpenAPI -> dynamic tool bridge with OpenClaw adapter",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "openapi-bridge": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "openapi",
+    "openclaw",
+    "tools",
+    "bridge"
+  ],
+  "author": "Mercur AI",
+  "license": "MIT",
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^11.7.2",
+    "commander": "^13.1.0",
+    "express": "^4.21.2",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8"
+  }
+}

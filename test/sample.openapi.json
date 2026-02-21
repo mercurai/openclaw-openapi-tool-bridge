@@ -1,0 +1,36 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Sample", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.example.com" }],
+  "paths": {
+    "/tickets": {
+      "post": {
+        "operationId": "createTicket",
+        "summary": "Create ticket",
+        "parameters": [
+          { "name": "priority", "in": "query", "required": false, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "message": { "type": "string" } },
+                "required": ["message"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tickets/{id}": {
+      "get": {
+        "operationId": "getTicket",
+        "summary": "Get ticket",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ]
+      }
+    }
+  }
+}
