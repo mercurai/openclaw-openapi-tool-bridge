@@ -1,9 +1,0 @@
-- [ ] Executive summary
-- [ ] Success criteria
-- [ ] Risk + rollback
-- [ ] Dependencies
-- [ ] Resource requirements
-- [ ] Phase/task breakdown
-- [ ] Validation plan
-- [ ] Observability
-- [ ] Audit trail
