@@ -6,6 +6,7 @@ import { createApp } from "./server/app.js";
 import { toOpenClawManifest } from "./adapters/openclaw-manifest.js";
 import { runBumpDiff } from "./diff/bump.js";
 import { listCatalog, loadCatalog, selectSchemaUrl, syncCatalog } from "./catalog/apis-guru.js";
+import { loadDirectoryCatalog, listDirectoryCatalog, findInDirectoryCatalog } from "./catalog/directory.js";
 import { normalizeOpenApi } from "./integrations/oas-normalizer.js";
 import { runPythonOpenApiValidator } from "./validators/python-openapi.js";
 import { getActiveContext, useSchema } from "./core/context.js";
@@ -247,12 +248,21 @@ catalog
 
 catalog
   .command("list")
+  .option("-s, --source <source>", "catalog source: apis-guru or path to directory", "apis-guru")
   .option("-i, --index <file>", "catalog index file", path.join(process.cwd(), ".cache/apis-guru-list.json"))
   .option("-n, --limit <limit>", "number of entries", "50")
   .action(async (opts) => {
-    const c = await loadCatalog(opts.index);
-    const rows = listCatalog(c, Number(opts.limit));
-    console.log(JSON.stringify(rows, null, 2));
+    if (opts.source === "apis-guru" || opts.source.endsWith(".json")) {
+      const c = await loadCatalog(opts.source === "apis-guru" ? opts.index : opts.source);
+      const rows = listCatalog(c, Number(opts.limit));
+      console.log(JSON.stringify(rows, null, 2));
+    } else {
+      // Assume it's a directory path
+      const dir = await loadDirectoryCatalog(opts.source);
+      if (!dir) throw new Error(`Directory catalog not found: ${opts.source}`);
+      const rows = listDirectoryCatalog(dir, Number(opts.limit));
+      console.log(JSON.stringify(rows, null, 2));
+    }
   });
 
 catalog
